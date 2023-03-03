@@ -9,4 +9,9 @@ module.exports = {
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
+  /** @type {import('@remix-run/dev').AppConfig} */
+  future: {
+    unstable_tailwind: true,
+  },
+  
 };
