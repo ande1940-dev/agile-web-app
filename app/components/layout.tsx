@@ -1,11 +1,16 @@
+import { User } from "@prisma/client";
 import SidebarNav from "./sidebar-nav";
-import Workspace from "./workspace";
 
-export default function DashboardLayout() {
+interface DashboardLayoutProps {
+    user: User
+    content: React.ReactNode
+}
+
+export default function DashboardLayout({ user, content }: DashboardLayoutProps) {
     return (
         <div className="max-w-8xl mx-auto px-4 sm:px-6 md:px-8">
-            <SidebarNav/>
-            <Workspace/>
+            <SidebarNav user={user}/>
+            {content}
         </div>
     )
 }

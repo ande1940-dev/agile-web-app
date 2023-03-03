@@ -3,7 +3,8 @@ import {
     json,
     LoaderArgs,
     redirect,
-  } from "@remix-run/node"; 
+} from "@remix-run/node"; 
+
 import { useLoaderData } from "@remix-run/react";
 import DashboardLayout from "~/components/layout";
 import Workspace from "~/components/workspace";
@@ -27,11 +28,10 @@ export async function action({ request }: ActionArgs) {
     }
 }
 
-export default function Dashboard() {
+export default function Settings() {
     const user = useLoaderData<typeof loader>();
 
     return (
-        <DashboardLayout user={user} content={<Workspace/>}/>
+        <DashboardLayout user={user} content={<h1>Settings</h1>}/>
     )
 }
-

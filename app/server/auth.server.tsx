@@ -81,7 +81,7 @@ export async function getUser(request: Request) {
     return user;
 };
 
-export async function logOut(request: Request) {
+export async function signOut(request: Request) {
     const session = await getSession(
         request.headers.get("Cookie")
     );
