@@ -3,11 +3,11 @@ import {
     json,
     LoaderArgs,
     redirect,
-} from "@remix-run/node"; 
-
+  } from "@remix-run/node"; 
 import { useLoaderData } from "@remix-run/react";
 import DashboardLayout from "~/components/layout";
 import { getUser, signOut } from "~/server/auth.server";
+
 
 export async function loader({ request }: LoaderArgs) {
     const user = await getUser(request);
@@ -27,10 +27,10 @@ export async function action({ request }: ActionArgs) {
     }
 }
 
-export default function Settings() {
+export default function Tasks() {
     const user = useLoaderData<typeof loader>();
 
     return (
-        <DashboardLayout user={user} content={<h1>Settings</h1>}/>
+        <DashboardLayout user={user} content={<h1>Tasks</h1>}/>
     )
 }
