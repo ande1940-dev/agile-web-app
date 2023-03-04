@@ -32,17 +32,26 @@ export async function logIn({email, password}: LoginForm) {
 export async function signUp({firstName, lastName, email, password}: RegisterForm) {
     if (firstName && lastName && email && password) {
         const hashedPassword = await bcrypt.hash(password as string, 10);
-        const user = await prisma.user.create({
-            data: {
-                profile: {
-                    firstName: firstName as string,
-                    lastName: lastName as string
-                },
-                email: email as string,
-                password: hashedPassword
+
+        const exists = await prisma.user.count({
+            where: {
+                email: email as string
             }
-        });
-        return user.id;
+        })
+
+        if (!exists) {
+            const user = await prisma.user.create({
+                data: {
+                    profile: {
+                        firstName: firstName as string,
+                        lastName: lastName as string
+                    },
+                    email: email as string,
+                    password: hashedPassword
+                }
+            });
+            return user.id;
+        }
     }
     return null;
 };
@@ -65,6 +74,14 @@ export async function getUserSession(request: Request) {
     });
 }
 
+export async function getUserId(request: Request) {
+    const session = await getSession(
+        request.headers.get("Cookie")
+    );
+
+    const userId = session.get("userId");
+}
+
 export async function getUser(request: Request) {
     const session = await getSession(
         request.headers.get("Cookie")
@@ -75,6 +92,9 @@ export async function getUser(request: Request) {
     const user = await prisma.user.findUnique({
         where: {
             id: userId
+        },
+        include: {
+            workspaces: true
         }
     })
 

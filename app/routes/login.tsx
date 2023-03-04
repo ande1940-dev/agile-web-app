@@ -51,7 +51,7 @@ export default function LogIn() {
   return (
     <div className="flex flex-col w-screen h-screen justify-center items-center">
       <Form className="grid space-y-4" method="post">
-      <div className="flex mb-8 place-content-center">Log In</div>
+        <div className="flex mb-8 place-content-center">Log In</div>
         <div className="flex space-x-2">
           <div>Dont have an account? </div>
           <Link to="/signup">Register here</Link>
@@ -65,7 +65,7 @@ export default function LogIn() {
           <input className="px-3 h-10 rounded-md border border-slate-300" type="password" name="password" id="password" minLength={8} required/>
         </div>
         <div className="grid space-y-2">
-          <button className="h-10 text-white bg-black rounded-md" type="submit" name="submit" value="intent">Log In</button>
+          <button className="h-10 text-white bg-black rounded-md" type="submit" name="submit">Log In</button>
         </div>
         { error && 
           <div className="text-red-500 text-sm">{error}</div>

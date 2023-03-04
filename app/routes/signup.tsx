@@ -31,7 +31,7 @@ export async function action({ request }: ActionArgs) {
   });
 
   if (!userId) {
-    session.flash("error", "Registration failed! Please try again later.");
+    session.flash("error", "An account already exists with this email address");
 
     return redirect("/signup", {
       headers: {
@@ -78,7 +78,7 @@ export default function SignUp() {
           <input className="px-3 h-10 rounded-md border border-slate-300" type="password" name="password" id="password" required/>
         </div>
         <div className="grid">
-          <button className="h-10 text-white bg-black rounded-md" type="submit" name="submit" value="intent">Log In</button>
+          <button className="h-10 text-white bg-black rounded-md" type="submit" name="submit">Log In</button>
         </div>
         { error && 
         <div className="text-red-500 text-sm">{error}</div>
