@@ -2,6 +2,7 @@ import { Workspace as IWorkspace } from "@prisma/client";
 import { ActionArgs, json, LoaderArgs } from "@remix-run/node";
 import { useCatch, useLoaderData } from "@remix-run/react";
 import DashboardLayout from "~/components/layout";
+import WorkspaceContent from "~/components/workspace-content";
 import { getUser, signOut } from "~/server/auth.server";
 import { prisma } from "~/server/prisma.server";
 import { getSession } from "~/server/session.server";
@@ -49,12 +50,7 @@ export default function Workspace() {
     return (
         <DashboardLayout 
             user={data.user} 
-            content={
-                <> 
-                    <h1>{data.workspace?.name}</h1>
-                    <h1>{data.workspace?.ownerId}</h1>
-                </>
-            }
+            content={<WorkspaceContent workspace={data.workspace}/>}
         />
     )
 }

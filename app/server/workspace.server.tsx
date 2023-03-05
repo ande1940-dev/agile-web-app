@@ -42,7 +42,11 @@ export async function getWorkspace(request: Request, param: Params) {
             id: workspaceId
         },
         include: {
-            members: true
+            owner: true,
+            members: true,
+            tasks: {
+                include: { assignee: true }
+            }
         }
     });
 

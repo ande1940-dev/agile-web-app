@@ -6,7 +6,7 @@ import {
   } from "@remix-run/node"; 
 import { useLoaderData } from "@remix-run/react";
 import DashboardLayout from "~/components/layout";
-import Workspace from "~/components/workspace";
+import Workspace from "~/components/workspace-content";
 import { getUser, signOut } from "~/server/auth.server";
 import { getSession } from "~/server/session.server";
 import { createWorkspace } from "~/server/workspace.server";
@@ -43,7 +43,7 @@ export default function Dashboard() {
     const user = useLoaderData<typeof loader>();
 
     return (
-        <DashboardLayout user={user} content={<Workspace/>}/>
+        <DashboardLayout user={user} content={<>Dashboard</>}/>
     )
 }
 
