@@ -1,13 +1,18 @@
 import { Fragment, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Form } from "@remix-run/react";
+import { Status, User } from "@prisma/client";
+import UserMenu from '../select-menus/user-menu';
+import StatusMenu from '../select-menus/status-menu';
 
-interface CreateWorkspaceProps {
+interface CreateTaskProps {
     open: boolean,
     setOpen:  React.Dispatch<React.SetStateAction<boolean>>
+    taskStatus: Status
+    users: User[]
 }
 
-export default function CreateWorkspaceModal({ open, setOpen }: CreateWorkspaceProps) {
+export default function CreateTaskModal({ open, setOpen, taskStatus, users }: CreateTaskProps) {
   const cancelButtonRef = useRef(null)
 
   return (
@@ -43,11 +48,11 @@ export default function CreateWorkspaceModal({ open, setOpen }: CreateWorkspaceP
                       <div className="flex justify-center w-full mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                           <div className="grid w-full space-y-4">
                             <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900 mb-4">
-                              Create Workspace
+                              Create Task
                             </Dialog.Title>
                             <div className="grid space-y-2">
                               <label htmlFor="title">Title</label>
-                              <input className="px-3 h-10 rounded-md border border-slate-300 outline-none focus:outline-2 focus:invalid:outline-red-400 focus:valid:outline-green-400" type="text" name="title" id="title" placeholder='Like "Agile Web App Workspace"' required />
+                              <input className="px-3 h-10 rounded-md border border-slate-300 outline-none focus:outline-2 focus:invalid:outline-red-400 focus:valid:outline-green-400" type="text" name="title" id="title" placeholder='Like "Create Repository & Push To GitHub"' required />
                             </div>
                             <div className="grid space-y-2">
                               <label htmlFor="description">Description (Optional)</label>
@@ -57,6 +62,8 @@ export default function CreateWorkspaceModal({ open, setOpen }: CreateWorkspaceP
                               <label htmlFor="dueDate">Due Date (Optional)</label>
                               <input className="px-3 h-10 rounded-md outline-none border border-slate-300 focus:border-slate-500"  type="datetime-local" name="dueDate" id="dueDate"/>
                             </div>
+                            <StatusMenu status={taskStatus} />
+                            <UserMenu users={users} />
                           </div>
                       </div>
                     </div>
@@ -65,7 +72,7 @@ export default function CreateWorkspaceModal({ open, setOpen }: CreateWorkspaceP
                     <button
                       type="submit"
                       name="intent"
-                      value="create-workspace"
+                      value="create-task"
                       className="inline-flex w-full justify-center rounded-md bg-yellow-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 sm:ml-3 sm:w-auto"
                       onClick={() => setOpen(false)}
                     >

@@ -1,9 +1,12 @@
 import { Task, User, Workspace } from "@prisma/client"
 
 export interface UserWithWorkspaces extends User {
-    workspaces: Workspace[]
+    workspaces: Omit<WorkspaceWithRelations, "owner" | "members" | "tasks">[]
 }
 
+export interface UserWithRelations extends User {
+    workspaces: WorkspaceWithRelations[]
+}
 
 export interface WorkspaceWithRelations extends Omit<Workspace, "endDate"> {
     endDate: string | null

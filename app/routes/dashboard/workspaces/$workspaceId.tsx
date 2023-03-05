@@ -21,27 +21,45 @@ export async function loader({ request, params }: LoaderArgs) {
           status: 404,
         });
     }
-    return json({workspace, user});
+    const users = await prisma.user.findMany({
+        where: {
+            NOT: {
+                id: user.id
+            }
+        }
+    })
+
+    return json({workspace, user, users});
       
 }
 
-export async function action({ request }: ActionArgs) {
+export async function action({ params, request }: ActionArgs) {
     const form = await request.formData();
     const intent = form.get("intent");
 
     switch(intent) {
-        case "sign-out":
+        case "sign-out": {
             return await signOut(request);
-        case "create-workspace": 
+        }
+        case "create-workspace": {
             const session = await getSession(
                 request.headers.get("Cookie")
             );
-        
             const userId = session.get("userId");
             const title = form.get("title");
             const description = form.get("description");
+            const dueDate = form.get("dueDate"); 
+            return await createWorkspace({ title, description, dueDate, userId })  
+        }
+        case "create-task": {
+            const title = form.get("title");
+            const description = form.get("description");
             const dueDate = form.get("dueDate");
-            return await createWorkspace({ title, description, dueDate, userId })
+            const status = form.get("status");
+            const assignee = form.get("assignee");
+            console.log(assignee, status);
+            return null;
+        }
     }
 }
 export default function Workspace() {
@@ -50,7 +68,7 @@ export default function Workspace() {
     return (
         <DashboardLayout 
             user={data.user} 
-            content={<WorkspaceContent workspace={data.workspace}/>}
+            content={<WorkspaceContent workspace={data.workspace} users={data.users}/>}
         />
     )
 }
