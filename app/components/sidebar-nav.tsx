@@ -21,14 +21,14 @@ export default function SidebarNav({ user }: SidebarNavProps) {
         <>
             <nav className="fixed top-0 left-0 h-screen w-[19.5rem] border-r px-8">     
                 <div className="flex h-20 z-10 absolute top-4 left-8 bg-white">
-                    <div className="grid place-content-center w-12 h-12 bg-yellow-400 rounded-lg">Logo</div>
+                    <div className="grid place-content-center w-12 h-12 bg-slate-400 rounded-lg">Logo</div>
                     <div className="h-8 bg-gradient-to-b from-white dark:from-slate-900"></div>
                 </div>
                 <div className="flex absolute z-10 bottom-4 left-8 h-20 bg-white">
                     <div className="h-8 bg-gradient-to-t from-white dark:from-slate-900"></div>
                     <div className="mt-8 flex items-center gap-x-4">
                         {/* <img src={post.author.imageUrl} alt="" className="h-10 w-10 rounded-full bg-gray-50" /> */}
-                        <div className="h-10 w-10 rounded-full bg-yellow-400"></div>
+                        <div className="h-10 w-10 rounded-full bg-slate-400"></div>
                         <div className="text-sm leading-6">
                         <p className="font-semibold text-gray-900">
                             { user.profile.firstName + " " + user.profile.lastName}
@@ -50,7 +50,7 @@ export default function SidebarNav({ user }: SidebarNavProps) {
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
-                                <Menu.Items className="absolute left-24 -top-full z-30 mt-2 w-56 origin-bottom-left rounded-md bg-white shadow-sm ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                <Menu.Items className="absolute left-24 -top-full z-30 mt-2 w-56 origin-bottom-left rounded-md bg-white shadow-md ring-1 ring-black ring-opacity-5 focus:outline-none">
                                 <div className="py-1">
                                     <Menu.Item>
                                         {({ active }) => (
@@ -87,9 +87,9 @@ export default function SidebarNav({ user }: SidebarNavProps) {
                     <ul className="mt-16">
                         <li>
                             <NavLink to="/dashboard/workspaces">
-                                <div className="group flex items-center lg:text-sm lg:leading-6 mb-4 font-medium text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300">
+                                <div className="group flex items-center lg:text-sm lg:leading-6 mb-4 font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300">
                                     <div className="grid place-content-center h-6 w-6 mr-4 rounded-md ring-1 ring-slate-900/5 shadow-sm group-hover:shadow group-hover:ring-slate-900/10 group-hover:shadow-purple-200">
-                                    <Squares2X2Icon className="h-4 w-4 text-yellow-300"/> 
+                                    <Squares2X2Icon className="h-4 w-4 text-slate-300"/> 
                                     </div>
                                     <span>Workspaces</span>
                                 </div>
@@ -97,27 +97,17 @@ export default function SidebarNav({ user }: SidebarNavProps) {
                         </li>
                         <li>
                             <NavLink to="/dashboard/tasks">
-                                <div className="group flex items-center lg:text-sm lg:leading-6 mb-4 font-medium text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300">
+                                <div className="group flex items-center lg:text-sm lg:leading-6 mb-4 font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300">
                                     <div className="grid place-content-center h-6 w-6 mr-4 rounded-md ring-1 ring-slate-900/5 shadow-sm group-hover:shadow group-hover:ring-slate-900/10 group-hover:shadow-purple-200">
-                                        <CalendarIcon className="h-4 w-4 text-yellow-300"/> 
+                                        <CalendarIcon className="h-4 w-4 text-slate-300"/> 
                                     </div>
                                     <span>Tasks</span>
                                 </div>
                             </NavLink>
                         </li>
-                        <li>
-                            <NavLink to="/dashboard/notifications">
-                                <div className="group flex items-center lg:text-sm lg:leading-6 mb-4 font-medium text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300">
-                                    <div className="grid place-content-center h-6 w-6 mr-4 rounded-md ring-1 ring-slate-900/5 shadow-sm group-hover:shadow group-hover:ring-slate-900/10 group-hover:shadow-purple-200">
-                                    <BellIcon className="h-4 w-4 text-yellow-300"/> 
-                                    </div>
-                                    <span>Notifications</span>
-                                </div>
-                            </NavLink>
-                        </li>
                     </ul>
                 </div>
-                <div className="mt-12 w-full">
+                <div className="mt-8 w-full">
                     <div className="sticky top-0 -ml-0.5">
                         <div className="flex w-full justify-between mt-10 bg-white relative">
                             <div className="hidden lg:flex items-center text-sm leading-6 text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300">
@@ -125,7 +115,7 @@ export default function SidebarNav({ user }: SidebarNavProps) {
                                 <input className="w-36 focus:outline-none" type="search" name="search" id="search" placeholder="Search Workspaces"/>
                             </div>
                             <button onClick={() => setOpen(true)} className="grid place-content-center h-9 w-9 rounded-md ring-1 ring-slate-900/5 shadow-sm hover:shadow hover:ring-slate-900/10 hover:shadow-purple-200">
-                                <SquaresPlusIcon className="h-6 w-6 text-yellow-300"/> 
+                                <SquaresPlusIcon className="h-6 w-6 text-slate-300 hover:text-slate-400"/> 
                             </button>
                         </div>
                         <div className="h-8 bg-gradient-to-b from-white dark:from-slate-900"></div>
@@ -134,9 +124,9 @@ export default function SidebarNav({ user }: SidebarNavProps) {
                         { 
                             user.workspaces.map((workspace) => {
                                 return (
-                                    <li key={workspace.id} className="flex justify-between block border-l pl-4 hover:border-slate-400 text-sm text-slate-700 hover:text-slate-900">
-                                        <NavLink to={`/dashboard/workspaces/${workspace.id}`}>{workspace.name}</NavLink>
-                                        <div className="h-2 w-2 bg-green-500 rounded-sm"></div>
+                                    <li key={workspace.id} className="flex space-x-4 items-center block pl-3 text-sm text-slate-600 hover:text-slate-900">
+                                        <div className={`h-2 w-2 rounded-sm ${ (workspace.endDate && new Date(workspace.endDate) > new Date(Date.now()))  || !workspace.endDate ? "bg-green-500": "bg-slate-200"}`}></div>
+                                        <NavLink className="w-48 truncate" to={`/dashboard/workspaces/${workspace.id}`}>{workspace.name}</NavLink>
                                     </li>
                                 )
                             })   

@@ -1,8 +1,9 @@
 import { User } from "@prisma/client";
+import { UserWithWorkspaces } from "~/server/types.server";
 import SidebarNav from "./sidebar-nav";
 
 interface DashboardLayoutProps {
-    user: User
+    user: UserWithWorkspaces
     content: React.ReactNode
 }
 
