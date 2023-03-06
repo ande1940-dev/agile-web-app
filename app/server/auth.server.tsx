@@ -94,7 +94,8 @@ export async function getUser(request: Request) {
             id: userId
         },
         include: {
-            workspaces: true
+            workspaces: true,
+            joinedWorkspaces: true
         }
     })
 

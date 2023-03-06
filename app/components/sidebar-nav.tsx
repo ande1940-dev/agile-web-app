@@ -83,7 +83,7 @@ export default function SidebarNav({ user }: SidebarNavProps) {
                         </Menu>
                     </div>
                 </div>
-                <div className="mt-32 w-full">
+                {/* <div className="mt-32 w-full">
                     <ul className="mt-16">
                         <li>
                             <NavLink to="/dashboard/workspaces">
@@ -106,8 +106,8 @@ export default function SidebarNav({ user }: SidebarNavProps) {
                             </NavLink>
                         </li>
                     </ul>
-                </div>
-                <div className="mt-4 w-full">
+                </div> */}
+                <div className="mt-12 w-full">
                     <div className="sticky top-0 -ml-0.5">
                         <div className="flex w-full justify-between mt-10 bg-white relative">
                             <div className="hidden lg:flex items-center text-sm leading-6 text-slate-400 rounded-md ring-1 ring-slate-900/10 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300">
@@ -120,18 +120,21 @@ export default function SidebarNav({ user }: SidebarNavProps) {
                         </div>
                         <div className="h-8 bg-gradient-to-b from-white dark:from-slate-900"></div>
                     </div>
-                    <ul className="grow h-64 space-y-6 lg:space-y-2 border-slate-100 overflow-y-auto">
+                    {user.workspaces.length > 0 ?
+                        <ul className="grow h-64 space-y-6 lg:space-y-2 border-slate-100 overflow-y-auto">
                         { 
-                            user.workspaces.map((workspace) => {
+                            [...user.workspaces, ...user.joinedWorkspaces].map((workspace) => {
                                 return (
                                     <li key={workspace.id} className="flex space-x-4 items-center block pl-3 text-sm text-slate-600 hover:text-slate-900">
-                                        <div className={`h-2 w-2 rounded-sm ${ (workspace.endDate && new Date(workspace.endDate) > new Date(Date.now()))  || !workspace.endDate ? "bg-green-500": "bg-slate-200"}`}></div>
-                                        <NavLink className="w-48 truncate" to={`/dashboard/workspaces/${workspace.id}`}>{workspace.name}</NavLink>
+                                        <div className={`h-2 w-2 rounded-sm ${ (workspace.dueDate && new Date(workspace.dueDate) > new Date(Date.now()))  || !workspace.dueDate ? "bg-green-500": "bg-slate-200"}`}></div>
+                                        <NavLink className="w-48 truncate" to={`/dashboard/workspaces/${workspace.id}`}>{workspace.title}</NavLink>
                                     </li>
                                 )
                             })   
                         }
-                    </ul>
+                        </ul>
+                        : <h1 className="text-sm text-slate-600">Nothing to see yet!</h1>
+                    }
                 </div>
             </nav>
             <CreateWorkspaceModal open={open} setOpen={setOpen}/>

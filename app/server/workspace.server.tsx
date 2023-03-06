@@ -14,9 +14,9 @@ export async function createWorkspace({ title, description, dueDate, userId}: Cr
     if (title && userId) {
         const workspace = await prisma.workspace.create({
             data: {
-                name: title as string,
-                description: description as string,
-                endDate: new Date(dueDate as string),
+                title: title as string,
+                description: description ? description as string : null,
+                dueDate: dueDate ? new Date(dueDate as string) : null,
                 owner: {
                     connect: {
                         id: userId

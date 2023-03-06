@@ -16,8 +16,8 @@ export default function UserMenu({users}: UserMenuProps) {
   const selectedUser = useRef<User>(users[1]);
 
   useEffect(() => {
-    const user = users.find((user) => user.id === selectedId);
-    if(user) {
+    const user= users.find((user) => user.id === selectedId);
+    if (user) {
       selectedUser.current = user;
     }
   }, [selectedId])

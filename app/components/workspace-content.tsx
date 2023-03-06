@@ -15,6 +15,11 @@ export default function WorkspaceContent({workspace, users}: WorkspaceProps) {
     const [open, setOpen] = useState<boolean>(false);
     const [taskStatus, setTaskStatus] = useState<Status>(Status.TODO);
 
+    const toDoTasks = workspace.tasks.filter((task) => task.status === Status.TODO);
+    const inProgressTasks = workspace.tasks.filter((task) => task.status === Status.INPROGRESS);
+    const inReviewTasks = workspace.tasks.filter((task) => task.status === Status.INREVIEW);
+    const completeTasks = workspace.tasks.filter((task) => task.status === Status.COMPLETE);
+
     const openCreateTaskModal = (status: Status) => {
         setTaskStatus(status);
         setOpen(true);
@@ -30,10 +35,10 @@ export default function WorkspaceContent({workspace, users}: WorkspaceProps) {
                                 <DocumentChartBarIcon className="text-white w-6 h-6"/>
                             </div>
                             <div className="flex flex-col justify-betweeen">
-                                <div className="w-72 text-lg text-black truncate">{workspace.name}</div>
+                                <div className="w-72 text-lg text-black truncate">{workspace.title}</div>
                                 <div className="flex items-center space-x-2">
-                                    <div className={`h-2 w-2 rounded-full ${(workspace.endDate && new Date(workspace.endDate) > new Date(Date.now()))  || !workspace.endDate ? "bg-green-500": "bg-slate-200"}`}></div>
-                                    <div className="text-sm">{(workspace.endDate && new Date(workspace.endDate) > new Date(Date.now())) || !workspace.endDate ? "In Progess": "Past Due"}</div>
+                                    <div className={`h-2 w-2 rounded-full ${(workspace.dueDate && new Date(workspace.dueDate) > new Date(Date.now()))  || !workspace.dueDate ? "bg-green-500": "bg-slate-200"}`}></div>
+                                    <div className="text-sm">{(workspace.dueDate && new Date(workspace.dueDate) > new Date(Date.now())) || !workspace.dueDate ? "In Progess": "Past Due"}</div>
                                 </div>
 
                             </div>
@@ -41,8 +46,8 @@ export default function WorkspaceContent({workspace, users}: WorkspaceProps) {
                         {/* <div className="flex">
                             <div>{workspace.owner.profile.firstName + " " +  workspace.owner.profile.lastName}</div>
                             {
-                                workspace.endDate &&
-                                <div>{new Date(workspace.endDate).toLocaleTimeString("en-US", dateOptions)}</div>
+                                workspace.dueDate &&
+                                <div>{new Date(workspace.dueDate).toLocaleTimeString("en-US", dateOptions)}</div>
                             }
                             <ul>
                                 Members 
@@ -57,29 +62,77 @@ export default function WorkspaceContent({workspace, users}: WorkspaceProps) {
                     <div className="text-xs w-96 truncate">{workspace.description}</div>
                 </div>
                 <div className="grid grid-cols-4 gap-2 h-full p-4 grow bg-slate-100 pb-10 rounded-lg">
-                    <ul className="flex h-12 w-full justify-center">
-                        <div className="flex justify-between items-center bg-white grow border rounded-t-lg rounded-b-md p-2"> 
+                    <ul className="flex flex-col space-y-4 h-12 w-full justify-center">
+                        <div className="flex  justify-between items-center bg-white grow border rounded-t-lg rounded-b-md p-2"> 
                             <div>To Do</div> 
                             <button onClick={() => openCreateTaskModal(Status.TODO)}><PlusCircleIcon className="w-6 h-6 text-slate-500"/></button>
                         </div>
+                        {
+                            toDoTasks.map((task) => {
+                                return (
+                                    <li className="bg-white p-2 border rounded-md">
+                                        <div>{task.title}</div>
+                                        { task.description && <div>{task.description}</div>}
+                                        { task.assignee && <div>{task.assignee?.profile.firstName + " " + task.assignee?.profile.lastName}</div>}
+                                        { task.dueDate && <div>{new Date(task.dueDate).toLocaleTimeString("en-US", dateOptions)}</div>}
+                                    </li>
+                                )
+                            })
+                        }
                     </ul>
-                    <ul className="flex h-12 w-full justify-center">
+                    <ul className="flex flex-col space-y-4 h-12 w-full justify-center">
                         <div className="flex justify-between items-center bg-white grow border rounded-t-lg rounded-b-md p-2"> 
                             <div>In Progress</div> 
                             <button onClick={() => openCreateTaskModal(Status.INPROGRESS)}><PlusCircleIcon className="w-6 h-6 text-slate-500"/></button>
                         </div>
+                        {
+                            inProgressTasks.map((task) => {
+                                return (
+                                    <li className="bg-white p-2 border rounded-md">
+                                        <div>{task.title}</div>
+                                        { task.description && <div>{task.description}</div>}
+                                        { task.assignee && <div>{task.assignee?.profile.firstName + " " + task.assignee?.profile.lastName}</div>}
+                                        { task.dueDate && <div>{new Date(task.dueDate).toLocaleTimeString("en-US", dateOptions)}</div>}
+                                    </li>
+                                )
+                            })
+                        }
                     </ul>
-                    <ul className="flex h-12 w-full justify-center">
+                    <ul className="flex flex-col space-y-4 h-12 w-full justify-center">
                         <div className="flex justify-between items-center bg-white grow border rounded-t-lg rounded-b-md p-2"> 
                             <div>In Review</div> 
                             <button onClick={() => openCreateTaskModal(Status.INREVIEW)}><PlusCircleIcon className="w-6 h-6 text-slate-500"/></button>
                         </div>
+                        {
+                            inReviewTasks.map((task) => {
+                                return (
+                                    <li className="bg-white p-2 border rounded-md">
+                                        <div>{task.title}</div>
+                                        { task.description && <div>{task.description}</div>}
+                                        { task.assignee && <div>{task.assignee?.profile.firstName + " " + task.assignee?.profile.lastName}</div>}
+                                        { task.dueDate && <div>{new Date(task.dueDate).toLocaleTimeString("en-US", dateOptions)}</div>}
+                                    </li>
+                                )
+                            })
+                        }
                     </ul>
-                    <ul className="flex h-12 w-full justify-center">
+                    <ul className="flex flex-col space-y-4 h-12 w-full justify-center">
                         <div className="flex justify-between items-center bg-white grow border rounded-t-lg rounded-b-md p-2"> 
                             <div>Complete</div> 
                             <button onClick={() => openCreateTaskModal(Status.COMPLETE)}><PlusCircleIcon className="w-6 h-6 text-slate-500"/></button>
                         </div>
+                        {
+                            completeTasks.map((task) => {
+                                return (
+                                    <li className="bg-white p-2 border rounded-md">
+                                        <div>{task.title}</div>
+                                        { task.description && <div>{task.description}</div>}
+                                        { task.assignee && <div>{task.assignee?.profile.firstName + " " + task.assignee?.profile.lastName}</div>}
+                                        { task.dueDate && <div>{new Date(task.dueDate).toLocaleTimeString("en-US", dateOptions)}</div>}
+                                    </li>
+                                )
+                            })
+                        }
                     </ul>
                 </div>
             </div>

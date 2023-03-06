@@ -6,6 +6,7 @@ import WorkspaceContent from "~/components/workspace-content";
 import { getUser, signOut } from "~/server/auth.server";
 import { prisma } from "~/server/prisma.server";
 import { getSession } from "~/server/session.server";
+import { createTask } from "~/server/task.server";
 import { createWorkspace, getWorkspace } from "~/server/workspace.server";
 
 export async function loader({ request, params }: LoaderArgs) {
@@ -57,8 +58,7 @@ export async function action({ params, request }: ActionArgs) {
             const dueDate = form.get("dueDate");
             const status = form.get("status");
             const assignee = form.get("assignee");
-            console.log(assignee, status);
-            return null;
+            return await createTask({title, description, dueDate, status, assignee, workspaceId: params?.workspaceId});
         }
     }
 }

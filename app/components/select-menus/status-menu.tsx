@@ -23,8 +23,6 @@ export default function StatusMenu({status}: TaskMenuProps) {
           <div className="relative mt-2">
             <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
               <span className="flex items-center">
-                {/* <img src={selected.avatar} alt="" className="h-5 w-5 flex-shrink-0 rounded-full" /> */}
-                <div className="h-5 w-5 bg-slate-500 rounded-full"></div>
                 <div>
                     <span className="ml-3 block truncate">
                     {
@@ -62,8 +60,6 @@ export default function StatusMenu({status}: TaskMenuProps) {
                     {({ selected, active }) => (
                       <>
                         <div className="flex items-center">
-                          {/* <img src={person.avatar} alt="" className="h-5 w-5 flex-shrink-0 rounded-full" /> */}
-                          <div className="h-5 w-5 bg-slate-500 rounded-full"></div>
                           <span
                               className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate')}
                           >
