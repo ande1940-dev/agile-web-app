@@ -1,36 +1,65 @@
 import {
     ActionArgs,
-    json,
-    LoaderArgs,
-    redirect,
-  } from "@remix-run/node"; 
-import { useLoaderData } from "@remix-run/react";
-import DashboardLayout from "~/components/layout";
-import { getUser, signOut } from "~/server/auth.server";
+} from "@remix-run/node"; 
+import { RouteMatch, useMatches } from "@remix-run/react";
+import { useState } from "react";
+import { createWorkspace } from "~/server/workspace.server";
+import { signOut } from "~/server/auth.server";
+import { getSession } from "~/server/session.server";
+import { WorkspaceWithRelations } from "~/server/types.server";
+import CreateWorkspaceModal from "~/components/modals/create-workspace-modal";
 
+export const handle = {
+    breadcrumb: "Workspaces"
+};
 
-export async function loader({ request }: LoaderArgs) {
-    const user = await getUser(request);
-    if (user) {
-        return json(user);
-    } 
-    return redirect("/login");
-}
-
-export async function action({ request }: ActionArgs) {
+export async function action({ params, request }: ActionArgs) {
     const form = await request.formData();
     const intent = form.get("intent");
 
     switch(intent) {
-        case "sign-out":
-            return await signOut(request);
+        case "create-workspace": {
+            const session = await getSession(
+                request.headers.get("Cookie")
+            );
+            const userId = session.get("userId");
+            const title = form.get("title");
+            const description = form.get("description");
+            const dueDate = form.get("dueDate"); 
+            return await createWorkspace({ title, description, dueDate, userId })  
+        }
     }
 }
 
 export default function Workspaces() {
-    const user = useLoaderData<typeof loader>();
+    const [isModalOpen, toggleModalOpen] = useState<boolean>(false);
+
+    const matches = useMatches();
+    const match: RouteMatch | undefined = matches.find((match) => match.pathname === "/dashboard");
+    const user = match?.data;
+    const workspaces = [...user.joinedWorkspaces, ...user.workspaces];
+
+    if (!match) {
+        throw new Response("Workspaces Not Found", {
+            status: 404,
+        });
+    };
 
     return (
-        <DashboardLayout user={user} content={<h1>Workspaces</h1>}/>
+        <div className="w-full">
+            <div>
+                Workspaces
+                <ul>
+                {
+                    
+                    workspaces.map((workspace: WorkspaceWithRelations) => 
+                        <li key={workspace.id}>{workspace.title}</li>
+                    )    
+                }
+                </ul>
+                <button onClick={() => toggleModalOpen(true)}>Add Workspace</button>
+            </div>
+            <CreateWorkspaceModal open={isModalOpen} setOpen={toggleModalOpen}/>
+        </div>
     )
 }

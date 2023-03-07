@@ -1,6 +1,6 @@
 import { Task, User, Workspace } from "@prisma/client"
 
-export interface UserWithWorkspaces extends User {
+export interface UserWithWorkspaces extends Exclude<User, "password"> {
     workspaces: Omit<WorkspaceWithRelations, "owner" | "members" | "tasks">[],
     joinedWorkspaces: Omit<WorkspaceWithRelations, "owner" | "members" | "tasks">[]
 }

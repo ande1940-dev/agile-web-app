@@ -4,9 +4,13 @@ import {
     LoaderArgs,
     redirect,
   } from "@remix-run/node"; 
-import { useLoaderData } from "@remix-run/react";
-import DashboardLayout from "~/components/layout";
+import { Link, useLoaderData } from "@remix-run/react";
 import { getUser, signOut } from "~/server/auth.server";
+
+export const handle = {
+    breadcrumb: "Tasks"
+};
+
 
 
 export async function loader({ request }: LoaderArgs) {
@@ -31,6 +35,6 @@ export default function Tasks() {
     const user = useLoaderData<typeof loader>();
 
     return (
-        <DashboardLayout user={user} content={<h1>Tasks</h1>}/>
+        <h1>Tasks</h1>
     )
 }

@@ -27,7 +27,7 @@ export default function WorkspaceContent({workspace, users}: WorkspaceProps) {
 
     return (
         <>
-            <div className="flex flex-col h-screen space-y-8">
+            <div className="flex flex-col w-full h-screen space-y-8">
                 <div className="space-y-3">
                     <div className="flex justify-between">
                         <div className="flex space-x-4">

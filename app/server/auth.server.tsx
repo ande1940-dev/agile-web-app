@@ -2,17 +2,23 @@ import { json, redirect } from "@remix-run/node";
 import { prisma } from "./prisma.server";
 import { getSession, commitSession, destroySession } from "./session.server";
 import bcrypt from "bcrypt";
+import { AccountType } from "@prisma/client";
 
 type LoginForm = {
     email: FormDataEntryValue | null
     password: FormDataEntryValue | null
 };
 
-type RegisterForm = {
+type CreateAccountForm = {
     firstName: FormDataEntryValue | null,
     lastName: FormDataEntryValue | null,
     email: FormDataEntryValue | null, 
     password: FormDataEntryValue | null
+}
+
+type CreateGuestAccountForm = {
+    firstName: FormDataEntryValue | null,
+    lastName: FormDataEntryValue | null,
 }
 
 export async function logIn({email, password}: LoginForm) {
@@ -29,7 +35,7 @@ export async function logIn({email, password}: LoginForm) {
     return null;
 };
 
-export async function signUp({firstName, lastName, email, password}: RegisterForm) {
+export async function createAccount({firstName, lastName, email, password}: CreateAccountForm) {
     if (firstName && lastName && email && password) {
         const hashedPassword = await bcrypt.hash(password as string, 10);
 
@@ -47,7 +53,8 @@ export async function signUp({firstName, lastName, email, password}: RegisterFor
                         lastName: lastName as string
                     },
                     email: email as string,
-                    password: hashedPassword
+                    password: hashedPassword, 
+                    accountType: AccountType.AUTHENTICATED
                 }
             });
             return user.id;
@@ -55,6 +62,21 @@ export async function signUp({firstName, lastName, email, password}: RegisterFor
     }
     return null;
 };
+
+export async function createGuestAccount({firstName, lastName}: CreateGuestAccountForm) {
+    if (firstName && lastName) {
+        const user = await prisma.user.create({
+            data: {
+                profile: {
+                    firstName: firstName as string,
+                    lastName: lastName as string
+                },
+                accountType: AccountType.GUEST
+            }
+        })
+        return user.id
+    }
+} 
 
 export async function getUserSession(request: Request) {
     const session = await getSession(
@@ -74,28 +96,53 @@ export async function getUserSession(request: Request) {
     });
 }
 
-export async function getUserId(request: Request) {
-    const session = await getSession(
-        request.headers.get("Cookie")
-    );
-
-    const userId = session.get("userId");
-}
-
 export async function getUser(request: Request) {
     const session = await getSession(
         request.headers.get("Cookie")
     );
     
     const userId = session.get("userId");
-
+    
     const user = await prisma.user.findUnique({
         where: {
             id: userId
         },
         include: {
-            workspaces: true,
-            joinedWorkspaces: true
+            workspaces: {
+                include: {
+                    tasks: {
+                        include: {
+                            assignee: {
+                                select: {
+                                    profile: true
+                                }
+                            }
+                        }
+                    }
+                }   
+            },
+            joinedWorkspaces: {
+                include: {
+                    tasks: {
+                        include: {
+                            assignee: {
+                                select: {
+                                    profile: true
+                                }
+                            }
+                        }
+                    }
+                } 
+            },
+            tasks: {
+                include: {
+                    workspace: {
+                        select: {
+                            title: true
+                        }
+                    }
+                }
+            }
         }
     })
 
@@ -106,9 +153,30 @@ export async function signOut(request: Request) {
     const session = await getSession(
         request.headers.get("Cookie")
     );
+    
     return redirect("/login", {
         headers: {
           "Set-Cookie": await destroySession(session),
         },
     });
+}
+
+export async function deleteAccount(request: Request) {
+    const session = await getSession(
+        request.headers.get("Cookie")
+    );
+
+    const userId = session.get("userId");
+
+    if (userId) {
+
+        await prisma.user.delete({
+            where: {
+                id: userId
+            }
+        })
+        
+        await signOut(request);
+    }
+    
 }

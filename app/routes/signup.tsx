@@ -3,8 +3,8 @@ import type {
   LoaderArgs,
 } from "@remix-run/node"; 
 import { redirect } from "@remix-run/node"; 
-import { Form, useLoaderData } from "@remix-run/react";
-import { getUserSession, signUp } from "~/server/auth.server";
+import { Form, Link, useLoaderData } from "@remix-run/react";
+import { getUserSession, createAccount } from "~/server/auth.server";
 
 import { getSession, commitSession } from "~/server/session.server";
 
@@ -23,7 +23,7 @@ export async function action({ request }: ActionArgs) {
   const password = form.get("password");
   
   
-  const userId = await signUp({
+  const userId = await createAccount({
     firstName,
     lastName,
     email,
@@ -84,6 +84,7 @@ export default function SignUp() {
         <div className="text-red-500 text-sm">{error}</div>
         }
       </Form>
+      <Link to="/guest-login"className="h-10 text-white bg-black rounded-md">Guest Mode</Link>
     </div>
   )
 }

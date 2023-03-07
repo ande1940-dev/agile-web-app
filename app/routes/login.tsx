@@ -49,7 +49,7 @@ export default function LogIn() {
     useLoaderData<typeof loader>();
 
   return (
-    <div className="flex flex-col w-screen h-screen justify-center items-center">
+    <div className="flex flex-col w-screen h-screen justify-center items-center space-y-4">
       <Form className="grid space-y-4" method="post">
         <div className="flex mb-8 place-content-center">Log In</div>
         <div className="flex space-x-2">
@@ -64,13 +64,12 @@ export default function LogIn() {
           <label htmlFor="password">Password</label>
           <input className="px-3 h-10 rounded-md border border-slate-300" type="password" name="password" id="password" minLength={8} required/>
         </div>
-        <div className="grid space-y-2">
-          <button className="h-10 text-white bg-black rounded-md" type="submit" name="submit">Log In</button>
-        </div>
+        <button className="h-10 text-white bg-black rounded-md" type="submit" name="submit" value="create-account">Log In</button>
         { error && 
           <div className="text-red-500 text-sm">{error}</div>
         }
       </Form>
+      <Link to="/guest-login"className="h-10 text-white bg-black rounded-md">Guest Mode</Link>
     </div>
   )
 }

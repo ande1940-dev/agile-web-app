@@ -16,11 +16,18 @@ type Profile {
   photo     String?
 }
 
+enum AccountType {
+  GUEST 
+  AUTHENTICATED
+  ADMIN
+}
+
 model User {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
   profile  Profile
-  email    String  @unique
+  email    String?  @unique
   password String?
+  accountType AccountType
 
   workspaces Workspace[] @relation("OwnedWorkspace")
 

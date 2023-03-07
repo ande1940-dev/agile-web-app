@@ -21,6 +21,9 @@ export async function createWorkspace({ title, description, dueDate, userId}: Cr
                     connect: {
                         id: userId
                     }
+                },
+                members: {
+                    connect: [{id: userId}]
                 }
             }
         });
