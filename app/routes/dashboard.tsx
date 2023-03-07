@@ -130,7 +130,7 @@ export default function Dashboard() {
                                 <div className="mt-12 lg:mt-8">
                                     <ul className={`space-y-6 lg:space-y-2 ${user.joinedWorkspaces.length && "border-l"} border-slate-100`}>
                                     {   user.joinedWorkspaces.length ?
-                                        [...user.joinedWorkspaces, ...user.workspaces].filter((workspace) => 
+                                        user.joinedWorkspaces.filter((workspace) => 
                                                 workspace.title.toLowerCase().includes(searchParams.toLowerCase())
                                             ).map((workspace) => (
                                             <li key={workspace.id}>

@@ -9,10 +9,6 @@ import { getSession } from "~/server/session.server";
 import { WorkspaceWithRelations } from "~/server/types.server";
 import CreateWorkspaceModal from "~/components/modals/create-workspace-modal";
 
-export const handle = {
-    breadcrumb: "Workspaces"
-};
-
 export async function action({ params, request }: ActionArgs) {
     const form = await request.formData();
     const intent = form.get("intent");
@@ -37,7 +33,6 @@ export default function Workspaces() {
     const matches = useMatches();
     const match: RouteMatch | undefined = matches.find((match) => match.pathname === "/dashboard");
     const user = match?.data;
-    const workspaces = [...user.joinedWorkspaces, ...user.workspaces];
 
     if (!match) {
         throw new Response("Workspaces Not Found", {
@@ -52,7 +47,7 @@ export default function Workspaces() {
                 <ul>
                 {
                     
-                    workspaces.map((workspace: WorkspaceWithRelations) => 
+                    user.joinedWorkspaces.map((workspace: WorkspaceWithRelations) => 
                         <li key={workspace.id}>{workspace.title}</li>
                     )    
                 }
