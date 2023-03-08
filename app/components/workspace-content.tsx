@@ -61,8 +61,8 @@ export default function WorkspaceContent({workspace, users}: WorkspaceProps) {
                     </div>
                     <div className="text-xs w-96 truncate">{workspace.description}</div>
                 </div>
-                <div className="grid grid-cols-4 gap-2 h-full p-4 grow bg-slate-100 pb-10 rounded-lg">
-                    <ul className="flex flex-col space-y-4 h-12 w-full justify-center">
+                {/* <div className="grid grid-cols-4 gap-2 h-full w-full p-4 grow bg-slate-100 pb-10 rounded-lg">
+                    <ul className="flex flex-col flex-wrap space-y-4 h-12 w-full justify-center">
                         <div className="flex  justify-between items-center bg-white grow border rounded-t-lg rounded-b-md p-2"> 
                             <div>To Do</div> 
                             <button onClick={() => openCreateTaskModal(Status.TODO)}><PlusCircleIcon className="w-6 h-6 text-slate-500"/></button>
@@ -134,7 +134,7 @@ export default function WorkspaceContent({workspace, users}: WorkspaceProps) {
                             })
                         }
                     </ul>
-                </div>
+                </div> */}
             </div>
             <CreateTaskModal open={open} setOpen={setOpen} taskStatus={taskStatus} users={users}/>
         </>

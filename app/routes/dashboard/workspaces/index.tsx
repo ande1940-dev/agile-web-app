@@ -1,10 +1,9 @@
 import {
     ActionArgs,
 } from "@remix-run/node"; 
-import { RouteMatch, useMatches } from "@remix-run/react";
+import { Link, RouteMatch, useMatches } from "@remix-run/react";
 import { useState } from "react";
 import { createWorkspace } from "~/server/workspace.server";
-import { signOut } from "~/server/auth.server";
 import { getSession } from "~/server/session.server";
 import { WorkspaceWithRelations } from "~/server/types.server";
 import CreateWorkspaceModal from "~/components/modals/create-workspace-modal";
@@ -46,9 +45,8 @@ export default function Workspaces() {
                 Workspaces
                 <ul>
                 {
-                    
                     user.joinedWorkspaces.map((workspace: WorkspaceWithRelations) => 
-                        <li key={workspace.id}>{workspace.title}</li>
+                        <li key={workspace.id}><Link to={`/dashboard/workspaces/${workspace.id}`}>{workspace.title}</Link></li>
                     )    
                 }
                 </ul>

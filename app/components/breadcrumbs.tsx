@@ -28,9 +28,8 @@ function getWorkspace(matches: RouteMatch[], params: Params) {
 }
 
 export default function Breadcrumbs({ matches }: BreadcrumbProps) {
-    const match = [...matches].pop();
-    const breadcrumbs = [...matches].filter((match) => match.handle && match.handle.breadcrumb);
-
+    const breadcrumbs = [...matches].filter((match) => match.handle && match.handle.breadcrumb || Object.keys(match.params).length);
+    const match = breadcrumbs.pop();
 
     return (
         <ol className="ml-4 flex text-sm leading-6 whitespace-nowrap min-w-0">
@@ -54,11 +53,6 @@ export default function Breadcrumbs({ matches }: BreadcrumbProps) {
                     </li>
                 )
             }
-            {/* { currentMatch && currentMatch.handle &&
-                <li className="font-semibold text-slate-900 truncate">
-                    {currentMatch.handle.breadcrumb}
-                </li>
-            } */}
         </ol>
     )
 }

@@ -12,7 +12,7 @@ export default function CreateWorkspaceModal({ open, setOpen }: CreateWorkspaceP
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog as="div" className="w-screen h-screen relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
+      <Dialog as="div" className="fixed w-screen h-screen relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"

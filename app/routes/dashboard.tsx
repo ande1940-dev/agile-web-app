@@ -94,7 +94,7 @@ export default function Dashboard() {
                                     <div className="h-12 w-12 bg-green-500 rounded-lg"></div>
                                     <div className="h-8 bg-white"></div>
                             </div>
-                            <div className="lg:text-sm lg:leading-6 relative h-screen space-y-8">
+                            <div className="lg:text-sm lg:leading-6 relative space-y-8">
                                 <ul> 
                                     <li>
                                         <NavLink className="group flex items-center lg:text-sm lg:leading-6 mb-4 font-medium text-slate-700 hover:text-slate-900" to="/dashboard/workspaces">
@@ -144,22 +144,10 @@ export default function Dashboard() {
                                     </ul>
                                 </div>
                             </div>
-                            <div className="h-20 absolute bottom-0 left-0 right-0 border-t">
-                                <div className="flex justify-between h-full items-center px-8">
-                                    <div className="flex space-x-4">
-                                        <div className="h-10 w-10 rounded-full bg-slate-400"></div>
-                                        <div className="flex flex-col w-40 space-y-1 leading-6">
-                                            <div className="text-sm font-medium truncate">{ user.profile.firstName + " " + user.profile.lastName }</div>
-                                            { user.email ? <div className="text-xs truncate">{user.email}</div> : <div className="text-xs truncate">Guest</div>}
-                                        </div>
-                                    </div>
-                                    <ChevronRightIcon className="text-slate-400 w-5 h-5"/>
-                                </div>
-                            </div>
                         </nav>
                     </div>
-                    <div className="lg:pl-[19.5rem]">
-                        <div className="max-w-3xl mx-auto pt-10 xl:max-w-none xl:ml-0 xl:mr-[15.5rem] xl:pr-16">
+                    <div className="lg:pl-[19.5rem] lg:h-screen">
+                        <div className="max-w-3xl mx-auto relative z-10 pt-10 xl:max-w-none">
                             <Outlet/>
                         </div>
                     </div>
